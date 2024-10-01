@@ -34,7 +34,19 @@ module.exports = {
       const root = new CategoryCollection(query);
       await root.init(filters, !!user);
       return root;
+    },
+    allCategories: async (_, __, { user }) => {
+      try {
+        const query = getCategoriesBaseQuery();
+        const root = new CategoryCollection(query);
+        await root.init([], !!user); // Sin filtros, obtenemos todas las categorías
+        return root;
+      } catch (error) {
+        console.error('Error en allCategories resolver:', error);
+        throw new Error('Error al obtener todas las categorías');
+      }
     }
+    
   },
   Category: {
     products: async (category, { filters = [] }, { user }) => {
