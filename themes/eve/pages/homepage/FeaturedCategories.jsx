@@ -1,6 +1,10 @@
 import React from "react";
+import PropTypes from 'prop-types';
 
-function FeaturedCategories() {
+function FeaturedCategories({ 
+  allCategories
+}) {
+  console.log(allCategories)
   return (
     <div className="page-width">
       <div className="mb-2 mt-3">
@@ -42,3 +46,36 @@ export const layout = {
   areaId: "content",
   sortOrder: 5,
 };
+
+
+FeaturedCategories.propTypes = {
+  allCategories: PropTypes.shape({
+    items: PropTypes.arrayOf(
+      PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        description: PropTypes.string,
+        image: PropTypes.shape({
+          alt: PropTypes.string,
+          url: PropTypes.string.isRequired,
+        }).isRequired,
+      })
+    ).isRequired,
+  }).isRequired,
+};
+
+
+export const query = `
+  query {
+    allCategories {
+      items {
+        name
+        description
+        image {
+          alt
+          url
+        }
+      }
+    }
+  }
+`;
+
