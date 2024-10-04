@@ -1,9 +1,9 @@
 import React from "react";
-
+import"./Logo.scss"
 function Logo() {
   return (
-    <div>
-      <a href="/">
+    <div className="divLogo">
+      <a href="/" className="logo">
         <img src="/eve.svg" alt="eve" />
       </a>
     </div>

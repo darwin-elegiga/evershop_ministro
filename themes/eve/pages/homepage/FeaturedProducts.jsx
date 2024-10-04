@@ -2,6 +2,7 @@ import ProductList from "@components/frontStore/catalog/product/list/List";
 import { _ } from "@evershop/evershop/src/lib/locale/translate";
 import PropTypes from "prop-types";
 import React from "react";
+import "./FeaturedProducts.scss";
 
 export default function FeaturedProducts({ collection }) {
   if (!collection) {
