@@ -21,7 +21,7 @@ module.exports = exports = async (connection) => {
           id: 'hanhk3km0m8nt2b',
           // eslint-disable-next-line no-script-url
           url: 'javascript:void(0)',
-          name: 'Shop ❤️',
+          name: 'Shop',
           type: 'custom',
           // eslint-disable-next-line no-script-url
           uuid: 'javascript:void(0)',

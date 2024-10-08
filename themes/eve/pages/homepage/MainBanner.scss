@@ -1,3 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap');
+
+@font-face {
+  font-family: 'lato';
+  src: url(../../fonts/careny/Careny.ttf);
+  font-weight: bold;
+  font-style: bold;
+}
+
 .main-banner-home {
   background-image: url("/giulia-bertelli-2OU30mdtseY-unsplash.jpg");
   background-size: cover;
@@ -13,12 +22,18 @@
     margin-top: 27px;
   }
   h2.h1 {
-    color: #e8c289f3;
+    color: white;
+    margin: 15px;
+    margin-left: 0;
+    padding: 0;
+    width: max-content;
+    text-shadow: 1px 1px 0px rgb(111, 108, 108) ;
+    font-family:'lato';
     letter-spacing: 0;
-    font-size: 3.2rem;
+    font-size: 8.2rem;
     line-height: 4.2rem;
     @media screen and (min-width: 768px) {
-      font-size: 5.5rem;
+      font-size: 10rem;
       line-height: 6.5rem;
     }
   }
@@ -34,4 +49,20 @@
     font-weight: bold;
     letter-spacing: 0.1rem;
   }
+}
+.slogan{
+  font-family: "Comfortaa", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: weight;
+  font-style: normal;
+
+
+  width:100%;
+  margin:15px;
+  margin-left: 0;
+  font-size: 4rem;
+  font-family: Arial, Helvetica, sans-serif;
+  color:white;
+  text-shadow: 1px 1px 0px rgb(111, 108, 108) ;
+
 }

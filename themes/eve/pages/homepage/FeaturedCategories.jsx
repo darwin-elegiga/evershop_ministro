@@ -1,40 +1,56 @@
 import React from "react";
 import PropTypes from 'prop-types';
-
+import './FeaturedCategories.scss'
 function FeaturedCategories({ 
   allCategories
 }) {
-  console.log(allCategories)
+
+  const arrayCategories= Array.from(allCategories.items)
+  console.log(arrayCategories.length)
+  console.log(arrayCategories)
+ 
+
   return (
     <div className="page-width">
       <div className="mb-2 mt-3">
         <h2 className="text-center">OUR CATEGORIES</h2>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-        <div className="relative col-span-1 row-span-2 men-cat">
-          <img src="/men-banner.jpg" alt="Shop men" />
+
+
+          
+      
+       
+      {arrayCategories.map(item =>{
+        return (   
+          
+          <div className="relative col-span-1 row-span-2 men-cat imagenContainer" >
+          {item.image?.url ? (
+            <img className="imagenCategorias" src={item.image.url} alt={item.name} />
+          ) : (
+           <img className="imagenCategorias" src="/main-banner.jpg" alt="Shop men" /> 
+          
+        )}
           <a
             className="absolute underline top-[20px] left-[20px] bg-white px-2"
-            href="#">
-            SHOP MEN
+            href={item.url}>
+              {item.name}
           </a>
-        </div>
-        <div className="relative col-span-1 row-span-1 women-cat">
-          <img src="/women-banner.jpg" alt="Shop women" />
-          <a
-            className="absolute underline top-[20px] left-[20px] bg-white px-2"
-            href="#">
-            SHOP WOMEN
-          </a>
-        </div>
-        <div className="relative col-span-1 row-span-1 kid-cat">
-          <img src="/kid-banner.jpg" alt="Shop kids" />
-          <a
-            className="absolute underline top-[20px] left-[20px] bg-white px-2"
-            href="#">
-            SHOP KIDS
-          </a>
-        </div>
+        </div>)
+      })}
+
+      
+       
+
+
+
+
+
+
+
+
+
+
       </div>
     </div>
   );
@@ -69,6 +85,7 @@ export const query = `
     allCategories {
       items {
         name
+        url
         description
         image {
           alt
