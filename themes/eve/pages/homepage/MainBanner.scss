@@ -27,14 +27,20 @@
     margin-left: 0;
     padding: 0;
     width: max-content;
-    text-shadow: 1px 1px 0px rgb(111, 108, 108) ;
-    font-family:'lato';
+    text-shadow: 1px 1px 0px rgb(111, 108, 108);
+    font-family: 'lato';
     letter-spacing: 0;
-    font-size: 8.2rem;
+    font-size: 4rem; /* Tamaño por defecto para pantallas pequeñas */
     line-height: 4.2rem;
+
     @media screen and (min-width: 768px) {
-      font-size: 10rem;
+      font-size: 8.2rem; /* Ajustar el tamaño en pantallas medianas */
       line-height: 6.5rem;
+    }
+
+    @media screen and (min-width: 1024px) {
+      font-size: 10rem; /* Tamaño más grande en pantallas grandes */
+      line-height: 8rem;
     }
   }
 }
@@ -50,19 +56,36 @@
     letter-spacing: 0.1rem;
   }
 }
-.slogan{
+.slogan {
   font-family: "Comfortaa", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: weight;
-  font-style: normal;
-
-
-  width:100%;
-  margin:15px;
+  width: 100%;
+  margin: 15px;
   margin-left: 0;
-  font-size: 4rem;
-  font-family: Arial, Helvetica, sans-serif;
-  color:white;
-  text-shadow: 1px 1px 0px rgb(111, 108, 108) ;
+  font-size: 2rem; 
+  color: white;
+  text-shadow: 1px 1px 0px rgb(111, 108, 108);
 
+  @media screen and (min-width: 768px) {
+    font-size: 3rem; 
+  }
+
+  @media screen and (min-width: 1024px) {
+    font-size: 4rem; 
+  }
+}
+
+.divContainer{
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center ;
+  justify-content: center;
+}
+
+.pageWidth{
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ justify-content: center;
 }
