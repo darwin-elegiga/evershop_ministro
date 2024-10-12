@@ -1,0 +1,6 @@
+{
+    "path": "/reward",
+    "methods": [
+      "GET"
+    ]
+  }
