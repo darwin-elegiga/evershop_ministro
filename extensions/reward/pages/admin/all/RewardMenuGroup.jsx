@@ -4,7 +4,7 @@ import StoreIcon from '@heroicons/react/solid/esm/OfficeBuildingIcon';
 import RegionIcon from '@heroicons/react/solid/esm/MapIcon';
 import NavigationItemGroup from '@components/admin/cms/NavigationItemGroup';
 
-export default function MarketplaceMenuGroup() {
+export default function MarketplaceMenuGroup({ rewardGrid }) {
     return (
         <NavigationItemGroup
             id="marketplaceMenuGroup"
@@ -12,7 +12,7 @@ export default function MarketplaceMenuGroup() {
             items={[
                 {
                     Icon: StoreIcon,
-                    url: "admin/reward",
+                    url: rewardGrid,
                     title: 'Logos'
                 }
             ]}
@@ -28,3 +28,8 @@ export const layout = {
 };
 
 
+export const query = `
+  query Query {
+    rewardGrid: url(routeId:"rewardGrid")
+  }
+`;

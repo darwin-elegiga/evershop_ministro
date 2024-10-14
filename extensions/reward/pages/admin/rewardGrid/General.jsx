@@ -5,7 +5,7 @@ const General = () => {
   return (
     <div>
       <h1>General ministro</h1>
-      <ImageUpload/>
+      {/* <ImageUpload/> */}
     </div>
   );
 };
