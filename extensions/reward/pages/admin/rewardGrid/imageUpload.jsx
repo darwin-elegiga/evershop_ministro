@@ -1,8 +1,9 @@
 import React, { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
-
+import './imageUpload.scss'
 export default function MyDropzone({ defaultImage }) {
   const [image, setImage] = useState(defaultImage);
+  
 
   const onDrop = useCallback((acceptedFiles) => {
     const reader = new FileReader();
@@ -40,9 +41,9 @@ export default function MyDropzone({ defaultImage }) {
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
   return (
-    <div {...getRootProps()} style={{ border: '2px dashed #cccccc', padding: '15px', margin: '10px', textAlign: 'center' }}>
+    <div className="divImagenes" {...getRootProps()} style={{ border: '2px dashed #cccccc', padding: '15px', margin: '10px', textAlign: 'center' }}>
       <input {...getInputProps()} />
-      <p className="text-sm font-semibold">Arrastra la foto aquí, o haz clic para seleccionar</p>
+      <p className="text-sm font-semibold texto">Arrastra la foto aquí, o haz clic para seleccionar</p>
       {image && (
         <img
           src={image}
@@ -51,5 +52,22 @@ export default function MyDropzone({ defaultImage }) {
         />
       )}
     </div>
+    
   );
 }
+
+export const query = `
+  query Query {
+    product(id: getContextValue("productId", null)) {
+      image {
+        id: uuid
+        url
+      }
+      gallery {
+        id: uuid
+        url
+      }
+    }
+    productImageUploadUrl: url(routeId: "imageUpload", params: [{key: "0", value: ""}])
+  }
+`;
