@@ -1,30 +1,52 @@
-import React, { useCallback, useState } from "react";
-import { useDropzone } from "react-dropzone";
-import './imageUpload.scss'
-export default function MyDropzone({ defaultImage }) {
-  const [image, setImage] = useState(defaultImage);
-  
+import React, { useCallback, useState } from 'react';
+import { useDropzone } from 'react-dropzone';
+import './imageUpload.scss';
 
+export default function MyDropzone({ defaultImages = [],element='' }) {
+  const [images, setImages] = useState(defaultImages); // Almacenamos las imágenes del producto
+  const [uploading, setUploading] = useState(false);
+
+
+
+
+  // Lógica para cargar las imágenes arrastradas
   const onDrop = useCallback((acceptedFiles) => {
+    if (images.length >= 2) {
+      alert('Solo puedes subir dos imágenes.');
+      return;
+    }
+
     const reader = new FileReader();
+    const newImage = acceptedFiles[0]; 
 
-    reader.readAsDataURL(acceptedFiles[0]);
+    reader.readAsDataURL(newImage);
     reader.onload = function () {
-      setImage(reader.result);
-      
-      // Aquí puedes llamar a tu endpoint para subir la imagen
-      uploadImage(acceptedFiles[0]);
-    };
-  }, []);
+      setImages((prev) => [...prev, { preview: reader.result }]); 
 
+      
+      uploadImage(newImage);
+      console.log(newImage)
+    };
+  }, [images]);
+
+  // Función para subir la imagen usando la misma lógica del primer código
   const uploadImage = async (file) => {
+    setUploading(true);
     const formData = new FormData();
-    formData.append("file", file);
+    const targetPath = `${element}`;
+
+    
+    
+    formData.append('images', file);
+    formData.append('targetPath', targetPath);
 
     try {
-      const response = await fetch('/api/upload-endpoint', {
+      const response = await fetch(`/api/images/${targetPath}`, {
         method: 'POST',
         body: formData,
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest'
+        }
       });
 
       if (!response.ok) {
@@ -33,41 +55,66 @@ export default function MyDropzone({ defaultImage }) {
 
       const result = await response.json();
       console.log('Imagen subida exitosamente:', result);
+      // Actualizamos la imagen con la respuesta del servidor
+      setImages((prev) =>
+        prev.map((img) => (img.preview === file ? { ...img, url: result.data.files[0].url } : img))
+      );
+      if (!result.error && result.data && result.data.files.length > 0) {
+        console.log('Imagen subida exitosamente:', result.data.files);
+        setImages((prev) =>
+          prev.map((img) =>
+            img.preview === file
+              ? { ...img, url: result.data.files[0].url }
+              : img
+          )
+        );
+        alert('Imagen subida correctamente');
+      } else {
+        throw new Error(result.error.message || 'Error desconocido en la subida');
+      }
     } catch (error) {
       console.error('Error al subir la imagen:', error);
+    } finally {
+      setUploading(false);
     }
+
+    
   };
 
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
+  const removeImage = (index) => {
+    setImages((prev) => prev.filter((_, i) => i !== index));
+  };
+
   return (
-    <div className="divImagenes" {...getRootProps()} style={{ border: '2px dashed #cccccc', padding: '15px', margin: '10px', textAlign: 'center' }}>
-      <input {...getInputProps()} />
-      <p className="text-sm font-semibold texto">Arrastra la foto aquí, o haz clic para seleccionar</p>
-      {image && (
-        <img
-          src={image}
-          alt="Vista previa"
-          style={{ width: '200px', height: '200px', marginTop: '10px' }} // Ajusta el tamaño según tus necesidades
-        />
+    <div className="image-upload-container">
+      {images.length < 2 && (
+        <div className="divImagenes" {...getRootProps()} style={{ border: '2px dashed #cccccc', padding: '15px', margin: '10px', textAlign: 'center' }}>
+          <input {...getInputProps()} />
+          <p className="text-sm font-semibold">Arrastra la foto aquí, o haz clic para seleccionar</p>
+        </div>
       )}
+
+      <div className="uploaded-images">
+        {images.map((image, index) => (
+          <div key={index} className="image-preview">
+            <img
+              src={image.url || image.preview}
+              alt={`Preview ${index + 1}`}
+              style={{ width: '200px', height: '200px', marginTop: '10px' }}
+            />
+            <button onClick={() => removeImage(index)} className="remove-image-btn">
+              Eliminar
+            </button>
+          </div>
+        ))}
+      </div>
+      
+      {uploading && <p>Cargando imagen...</p>}
     </div>
-    
   );
 }
 
-export const query = `
-  query Query {
-    product(id: getContextValue("productId", null)) {
-      image {
-        id: uuid
-        url
-      }
-      gallery {
-        id: uuid
-        url
-      }
-    }
-    productImageUploadUrl: url(routeId: "imageUpload", params: [{key: "0", value: ""}])
-  }
-`;
+
+
