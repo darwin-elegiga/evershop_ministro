@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import './Breadcrumb.scss'
 
 function Breadcrumb({ pageInfo: { breadcrumbs } }) {
   return breadcrumbs.length ? (
-    <div className="breadcrumb page-width my-8">
+    <div className="breadcrumb page-width">
       {breadcrumbs.map((breadcrumb, index) =>
         index === breadcrumbs.length - 1 ? (
           <span key={index}>{breadcrumb.title}</span>
