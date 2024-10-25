@@ -1,18 +1,33 @@
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useState } from "react";
 import './Menu.scss';
+
 export default function Menu({ menu: { items } }) {
+  const [showCategories, setShowCategories] = useState(false);
+
   return (
     <div className="main-menu self-center hidden md:block">
       <ul className="nav flex space-x-275 justify-content-center">
-        {items.map((i, index) => (
-          // eslint-disable-next-line react/no-array-index-key
-          <li className="nav-item linavbar" key={index}>
-            <a className="nav-link hover:underline" href={i.url}>
-              {i.name}
-            </a>
-          </li>
-        ))}
+        <li
+          className="nav-item linavbar"
+          onMouseEnter={() => setShowCategories(true)}
+          onMouseLeave={() => setShowCategories(false)}
+        >
+          <button className="nav-link hover:underline">
+            Categorías
+          </button>
+          {showCategories && (
+            <ul className="dropdown-menu">
+              {items.map((item, index) => (
+                <li key={index} className="dropdown-item">
+                  <a href={item.url} className="dropdown-link">
+                    {item.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
+        </li>
         <li className="nav-item linavbar">
           <a className="nav-link hover:underline" href={"/page/contact"}>
             Contact
@@ -33,6 +48,7 @@ Menu.propTypes = {
     ).isRequired,
   }).isRequired,
 };
+
 
 export const layout = {
   areaId: "header",
