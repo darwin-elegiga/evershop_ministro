@@ -8,8 +8,9 @@ export default function ThumbnailRow({ id, areaProps }) {
         className="grid-thumbnail text-border border border-divider p-3 rounded flex justify-center"
         style={{ width: '6rem', height: '6rem' }}
       >
+        
         {areaProps.row[id] && (
-          <img className="self-center" src={areaProps.row[id]} alt="" />
+          <img className="self-center x" src={areaProps.row[id]} alt="" />
         )}
         {!areaProps.row[id] && (
           <svg

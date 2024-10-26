@@ -2,14 +2,15 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import '@components/frontStore/catalog/product/list/item/Thumbnail.scss';
 import ProductNoThumbnail from '@components/common/ProductNoThumbnail';
-
+import './Thumbnail.scss'
 function Thumbnail({ url, imageUrl, alt }) {
   return (
-    <div className="product-thumbnail-listing">
+    <div className="product-thumbnail-listing ">
       {imageUrl && (
-        <a href={url}>
-          <img src={imageUrl} alt={alt} />
-        </a>
+        <a href={url} className='link'>
+          <img href={url} src={imageUrl} alt={alt} width={100} height={100}  />
+       </a>
+      
       )}
       {!imageUrl && (
         <a href={url}>
