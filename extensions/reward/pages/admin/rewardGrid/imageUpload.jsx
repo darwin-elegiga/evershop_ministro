@@ -34,12 +34,8 @@ export default function MyDropzone({ defaultImages = [],element='' }) {
     setUploading(true);
     const formData = new FormData();
     const targetPath = `${element}`;
-
-    
-    
     formData.append('images', file);
     formData.append('targetPath', targetPath);
-
     try {
       const response = await fetch(`/api/images/${targetPath}`, {
         method: 'POST',
@@ -48,37 +44,49 @@ export default function MyDropzone({ defaultImages = [],element='' }) {
           'X-Requested-With': 'XMLHttpRequest'
         }
       });
-
       if (!response.ok) {
         throw new Error('Error en la carga de la imagen');
       }
-
       const result = await response.json();
       console.log('Imagen subida exitosamente:', result);
+  
+      // Actualizamos la imagen con la URL recibida del servidor
+      const imageUrl = result.data.files[0].url;
+  
+      // Llamar a la API para insertar la URL en la base de datos
+      const insertResponse = await fetch('/api/insert-image-url', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          url: imageUrl,
+          name: file.name,  // O puedes pasar cualquier otro dato relevante
+        })
+      });
+  
+      if (!insertResponse.ok) {
+        throw new Error('Error al insertar la URL en la base de datos');
+      }
+  
+      const insertResult = await insertResponse.json();
+      console.log('URL insertada en la base de datos:', insertResult);
+  
       // Actualizamos la imagen con la respuesta del servidor
       setImages((prev) =>
-        prev.map((img) => (img.preview === file ? { ...img, url: result.data.files[0].url } : img))
+        prev.map((img) =>
+          img.preview === file
+            ? { ...img, url: imageUrl }
+            : img
+        )
       );
-      if (!result.error && result.data && result.data.files.length > 0) {
-        console.log('Imagen subida exitosamente:', result.data.files);
-        setImages((prev) =>
-          prev.map((img) =>
-            img.preview === file
-              ? { ...img, url: result.data.files[0].url }
-              : img
-          )
-        );
-        alert('Imagen subida correctamente');
-      } else {
-        throw new Error(result.error.message || 'Error desconocido en la subida');
-      }
+  
+      alert('Imagen subida y URL insertada correctamente');
     } catch (error) {
-      console.error('Error al subir la imagen:', error);
+      console.error('Error al subir la imagen o insertar la URL:', error);
     } finally {
       setUploading(false);
     }
-
-    
   };
 
   const { getRootProps, getInputProps } = useDropzone({ onDrop });

@@ -11,6 +11,7 @@ const General = () => {
      <MyDropzone element="banner"/>
      <ImagePreview imageUrl={'/assets/logo'} />
      <ImagePreview imageUrl={'/assets/banner'} />
+     
      {/* <img src="/assets/logo" alt="" /> */}
     </div>
   );

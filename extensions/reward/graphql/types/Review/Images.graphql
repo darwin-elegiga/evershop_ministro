@@ -1,0 +1,16 @@
+"""
+Represents an image.
+"""
+type Image {
+  imageId: Int!
+  uuid: String!
+  name: String!
+  url: String!
+  altText: String
+  createdAt: String
+  updatedAt: String
+}
+
+extend type Query {
+  images: [Image]
+}
